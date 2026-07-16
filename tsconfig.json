@@ -1,0 +1,21 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./.wxt/tsconfig.typecheck.tsbuildinfo",
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src/**/*", "wxt.config.ts", "vitest.config.ts", "vitest.setup.ts", ".wxt/wxt.d.ts"],
+  "exclude": [
+    "repos",
+    "src/entrypoints/guide.content",
+    "src/entrypoints/input-injector.content",
+    "src/entrypoints/options",
+    "src/entrypoints/popup",
+    "src/entrypoints/sidepanel",
+    "src/entrypoints/translation-hub",
+    "src/entrypoints/background/notebase-pending-save.ts",
+    "src/utils/navigation.ts"
+  ]
+}

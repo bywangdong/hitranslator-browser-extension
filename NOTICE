@@ -1,0 +1,20 @@
+HiTranslator Browser Extension
+Copyright (C) 2026 iobee and contributors
+
+This program is a modified version of Read Frog, originally published at:
+https://github.com/mengxi-ream/read-frog
+
+Upstream snapshot:
+- Version: 1.39.4
+- Commit: 13fd8981bd93ea82cc94a12b6fd2a14c8d50da08
+- Imported: 2026-07-11
+
+HiTranslator-specific modifications began on 2026-07-11. They include a new
+product identity, a Native Messaging bridge to the HiTranslator desktop app,
+desktop-managed model and webpage settings, desktop selection translation,
+adaptive translation styling, and removal or disabling of upstream account,
+analytics, Notebase, learning, and cloud-service surfaces.
+
+The complete browser-extension source is licensed under GNU GPL version 3 only.
+See LICENSE and UPSTREAM.md. Read Frog and its contributors do not endorse this
+modified distribution.

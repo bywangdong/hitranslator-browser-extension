@@ -1,0 +1,214 @@
+import type { Config } from "@/types/config/config"
+import type { FloatingButtonSide } from "@/types/config/floating-button"
+import type { SelectionToolbarCustomAction } from "@/types/config/selection-toolbar"
+import type { PageTranslateRange } from "@/types/config/translate"
+import { DEFAULT_TRANSLATE_PROMPTS_CONFIG } from "./prompt"
+import { DEFAULT_SELECTION_OVERLAY_OPACITY } from "./selection"
+import { DEFAULT_SIDE_CONTENT_WIDTH } from "./side"
+import {
+  DEFAULT_BACKGROUND_OPACITY,
+  DEFAULT_DISPLAY_MODE,
+  DEFAULT_FONT_FAMILY,
+  DEFAULT_FONT_SCALE,
+  DEFAULT_FONT_WEIGHT,
+  DEFAULT_SUBTITLE_COLOR,
+  DEFAULT_SUBTITLE_POSITION,
+  DEFAULT_TRANSLATION_POSITION,
+} from "./subtitles"
+import {
+  DEFAULT_AUTO_TRANSLATE_SHORTCUT_KEY,
+  DEFAULT_BATCH_CONFIG,
+  DEFAULT_MIN_CHARACTERS_PER_NODE,
+  DEFAULT_MIN_WORDS_PER_NODE,
+  DEFAULT_PRELOAD_MARGIN,
+  DEFAULT_PRELOAD_THRESHOLD,
+  DEFAULT_REQUEST_CAPACITY,
+  DEFAULT_REQUEST_RATE,
+  DEFAULT_SELECTION_TRANSLATION_SHORTCUT_KEY,
+  DEFAULT_TRANSLATION_MODE_SHORTCUT_KEY,
+} from "./translate"
+import { TRANSLATION_NODE_STYLE_ON_INSTALLED } from "./translation-node-style"
+import { DEFAULT_TTS_CONFIG } from "./tts"
+
+export const CONFIG_STORAGE_KEY = "config"
+export const LAST_SYNCED_CONFIG_STORAGE_KEY = "lastSyncedConfig"
+export const GOOGLE_DRIVE_TOKEN_STORAGE_KEY = "__googleDriveToken"
+
+export const THEME_STORAGE_KEY = "theme"
+export const DEFAULT_DETECTED_CODE = "eng" as const
+export const CONFIG_SCHEMA_VERSION = 85
+
+export const DEFAULT_FLOATING_BUTTON_POSITION = 0.66
+export const DEFAULT_FLOATING_BUTTON_SIDE: FloatingButtonSide = "right"
+export const HITRANSLATOR_DESKTOP_PROVIDER_ID = "hitranslator-desktop"
+
+/**
+ * Build the default "Dictionary" custom action. Its `name`/`systemPrompt`/`prompt`/output
+ * field labels are resolved via `i18n.t` and, once written to a user's config, become
+ * frozen user data. To persist them in the user's chosen `uiLanguage` (not whatever the
+ * i18next singleton defaulted to at module-import time), `initializeConfig` calls this
+ * again after `initI18n` for the config it actually writes on a fresh install.
+ *
+ * The module-scope `defaultDictionaryAction` below stays (DEFAULT_CONFIG must expose a
+ * populated `customActions` for in-memory fallbacks and tests); its strings are only ever
+ * a transient fallback, never the persisted value.
+ */
+export function createDefaultDictionaryAction(): SelectionToolbarCustomAction | null {
+  return null
+}
+
+/** Default custom actions for a fresh install, resolved against the current i18next language. */
+export function buildDefaultCustomActions(): SelectionToolbarCustomAction[] {
+  const dictionaryAction = createDefaultDictionaryAction()
+  return dictionaryAction ? [dictionaryAction] : []
+}
+
+export const DEFAULT_CONFIG: Config = {
+  language: {
+    sourceCode: "auto",
+    targetCode: "cmn",
+    level: "intermediate",
+  },
+  providersConfig: [
+    {
+      id: HITRANSLATOR_DESKTOP_PROVIDER_ID,
+      name: "HiTranslator Desktop",
+      provider: "microsoft-translate",
+      enabled: true,
+    },
+  ],
+  translate: {
+    providerId: HITRANSLATOR_DESKTOP_PROVIDER_ID,
+    mode: "bilingual",
+    modeShortcut: DEFAULT_TRANSLATION_MODE_SHORTCUT_KEY,
+    node: {
+      enabled: false,
+      hotkey: "control",
+    },
+    page: {
+      range: "all",
+      autoTranslatePatterns: ["news.ycombinator.com"],
+      neverAutoTranslatePatterns: [],
+      autoTranslateLanguages: [],
+      shortcut: DEFAULT_AUTO_TRANSLATE_SHORTCUT_KEY,
+      preload: {
+        margin: DEFAULT_PRELOAD_MARGIN,
+        threshold: DEFAULT_PRELOAD_THRESHOLD,
+      },
+      minCharactersPerNode: DEFAULT_MIN_CHARACTERS_PER_NODE,
+      minWordsPerNode: DEFAULT_MIN_WORDS_PER_NODE,
+      enableTargetLanguageSkip: true,
+      skipLanguages: [],
+    },
+    enableAIContentAware: false,
+    customPromptsConfig: DEFAULT_TRANSLATE_PROMPTS_CONFIG,
+    requestQueueConfig: {
+      capacity: DEFAULT_REQUEST_CAPACITY,
+      rate: DEFAULT_REQUEST_RATE,
+    },
+    batchQueueConfig: {
+      maxCharactersPerBatch: DEFAULT_BATCH_CONFIG.maxCharactersPerBatch,
+      maxItemsPerBatch: DEFAULT_BATCH_CONFIG.maxItemsPerBatch,
+    },
+    translationNodeStyle: {
+      preset: TRANSLATION_NODE_STYLE_ON_INSTALLED,
+      isCustom: false,
+      customCSS: null,
+    },
+  },
+  languageDetection: {
+    mode: "basic",
+  },
+  tts: DEFAULT_TTS_CONFIG,
+  floatingButton: {
+    enabled: true,
+    position: DEFAULT_FLOATING_BUTTON_POSITION,
+    side: DEFAULT_FLOATING_BUTTON_SIDE,
+    disabledFloatingButtonPatterns: [],
+    clickAction: "translate",
+    locked: false,
+  },
+  selectionToolbar: {
+    enabled: true,
+    disabledSelectionToolbarPatterns: [],
+    opacity: DEFAULT_SELECTION_OVERLAY_OPACITY,
+    features: {
+      translate: {
+        enabled: true,
+        providerId: HITRANSLATOR_DESKTOP_PROVIDER_ID,
+        shortcut: DEFAULT_SELECTION_TRANSLATION_SHORTCUT_KEY,
+      },
+      speak: {
+        enabled: true,
+      },
+    },
+    customActions: [],
+  },
+  sideContent: {
+    width: DEFAULT_SIDE_CONTENT_WIDTH,
+  },
+  betaExperience: {
+    enabled: false,
+  },
+  contextMenu: {
+    enabled: true,
+  },
+  inputTranslation: {
+    enabled: false,
+    providerId: HITRANSLATOR_DESKTOP_PROVIDER_ID,
+    fromLang: "targetCode",
+    toLang: "sourceCode",
+    enableCycle: false,
+    timeThreshold: 300,
+  },
+  videoSubtitles: {
+    enabled: true,
+    autoStart: false,
+    providerId: HITRANSLATOR_DESKTOP_PROVIDER_ID,
+    style: {
+      displayMode: DEFAULT_DISPLAY_MODE,
+      translationPosition: DEFAULT_TRANSLATION_POSITION,
+      main: {
+        fontFamily: DEFAULT_FONT_FAMILY,
+        fontScale: DEFAULT_FONT_SCALE,
+        color: DEFAULT_SUBTITLE_COLOR,
+        fontWeight: DEFAULT_FONT_WEIGHT,
+      },
+      translation: {
+        fontFamily: DEFAULT_FONT_FAMILY,
+        fontScale: DEFAULT_FONT_SCALE,
+        color: DEFAULT_SUBTITLE_COLOR,
+        fontWeight: DEFAULT_FONT_WEIGHT,
+      },
+      container: {
+        backgroundOpacity: DEFAULT_BACKGROUND_OPACITY,
+      },
+    },
+    aiSegmentation: false,
+    requestQueueConfig: {
+      capacity: DEFAULT_REQUEST_CAPACITY,
+      rate: DEFAULT_REQUEST_RATE,
+    },
+    batchQueueConfig: {
+      maxCharactersPerBatch: DEFAULT_BATCH_CONFIG.maxCharactersPerBatch,
+      maxItemsPerBatch: DEFAULT_BATCH_CONFIG.maxItemsPerBatch,
+    },
+    customPromptsConfig: DEFAULT_TRANSLATE_PROMPTS_CONFIG,
+    position: DEFAULT_SUBTITLE_POSITION,
+  },
+  siteControl: {
+    mode: "blacklist",
+    blacklistPatterns: [],
+    whitelistPatterns: [],
+  },
+  siteRules: {
+    userRules: [],
+    disabledBuiltInRules: [],
+  },
+  uiLanguage: "auto",
+}
+
+export const PAGE_TRANSLATE_RANGE_ITEMS: Record<PageTranslateRange, { label: string }> = {
+  main: { label: "Main" },
+  all: { label: "All" },
+}
