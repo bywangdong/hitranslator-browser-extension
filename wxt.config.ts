@@ -49,7 +49,7 @@ export default defineConfig({
     name: "HiTranslator Web Translator",
     description: "Translate webpages with the models configured in HiTranslator.",
     default_locale: "en",
-    homepage_url: "https://github.com/iobee/hitranslator-browser-extension",
+    homepage_url: "https://github.com/bywangdong/hitranslator-browser-extension",
     ...((browser === "chrome" || browser === "edge") && {
       key: HITRANSLATOR_DEV_EXTENSION_KEY,
     }),

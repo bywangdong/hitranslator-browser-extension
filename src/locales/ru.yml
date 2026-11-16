@@ -533,7 +533,7 @@ options:
       title: Персонализированные промпты
       description: Настройка различных типов промптов позволяет вам самостоятельно изменять тип промпта во время перевода. Промпт — это текст, который пользователь отправляет LLM.
       communityPrompts: Получайте или делитесь промптами с сообществом
-      communityPromptsUrl: https://github.com/iobee/hitranslator-browser-extension/discussions/821
+      communityPromptsUrl: https://github.com/bywangdong/hitranslator-browser-extension/discussions/821
       addPrompt: Добавить промпт
       default: По умолчанию
       importSuccess: Импорт успешен
