@@ -1,3 +1,14 @@
+# HiTranslator Browser Extension
+
+## 0.1.1
+
+### Patch Changes
+
+- Update GitHub download, help, and source links after the account rename to bywangdong.
+- Preserve the extension identity and HiTranslator native messaging protocol.
+
+## Upstream history
+
 # @read-frog/extension
 
 ## 1.39.4

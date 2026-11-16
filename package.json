@@ -1,6 +1,6 @@
 {
   "name": "@hitranslator/browser-extension",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "GPL-licensed browser companion for HiTranslator desktop webpage translation",
   "homepage": "https://github.com/bywangdong/hitranslator-browser-extension#readme",
